@@ -1,16 +1,14 @@
 [
     {
-        "id": 1,
         "name": "Bagus",
         "email": "pramaskoro@gmail.com",
-        "password": "Bagus123",
+        "password": "12345",
         "role": "admin"
     },
     {
-        "id": 2,
         "name": "Rexit",
-        "email": "pram010100@gmail.com",
-        "password": "Rexit123",
+        "email": "pramaskoro@gmail.com",
+        "password": "12345",
         "role": "staff"
     }
 ]

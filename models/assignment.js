@@ -15,22 +15,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Assignment.init({
-    name: {
+    task: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: {
-          msg: "Name is required"
-        },
         notNull: {
-          msg: "Name is required"
+          msg: "Task is required"
+        },
+        notEmpty: {
+          msg: "Task is required"
         }
       }
     },
     employeeId: {
       type: DataTypes.INTEGER,
       validate: {
-        notEmpty: "Employee Id is required",
-        notNull: "Employee Id is required"
+        notNull: {
+          msg: "Employee Id is required"
+        },
+        notEmpty: {
+          msg: "Employee Id is required"
+        }
       },
       references: {
         model: {

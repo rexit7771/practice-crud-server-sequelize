@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { hashing } = require('../helpers/bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -11,17 +12,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Assignment, { foreignKey: "employeeId" });
+      User.hasMany(models.Assignment, { foreignKey: "employeeId" })
     }
   }
   User.init({
     name: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: {
+        notNull: {
           msg: "Name is required"
         },
-        notNull: {
+        notEmpty: {
           msg: "Name is required"
         }
       }
@@ -30,12 +31,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         isEmail: {
-          msg: "Must be email format"
-        },
-        notEmpty: {
-          msg: "Email is required"
+          msg: "Invalid Email Format"
         },
         notNull: {
+          msg: "Email is required"
+        },
+        notEmpty: {
           msg: "Email is required"
         }
       }
@@ -43,30 +44,38 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: {
-          msg: ""
-        },
         notNull: {
-          msg: ""
+          msg: "Password is required"
+        },
+        notEmpty: {
+          msg: "Password is required"
         },
         min: {
           args: [5],
-          msg: "Password require minimum 5 characters"
+          msg: "Password Must contain 5 Characters minimum"
         }
       }
     },
     role: {
       type: DataTypes.STRING,
+      defaultValue: "staff",
       validate: {
+        notNull: {
+          msg: "Role is required"
+        },
         notEmpty: {
           msg: "Role is required"
         },
-        notNull: {
-          msg: "Role is required"
-        }
       }
     }
   }, {
+    hooks: {
+      beforeCreate: (instance, options) => {
+        console.log(instance.password);
+
+        instance.password = hashing(instance.password)
+      }
+    },
     sequelize,
     modelName: 'User',
   });
