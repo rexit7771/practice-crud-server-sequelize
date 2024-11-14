@@ -3,9 +3,9 @@ const { verifyToken } = require("../helpers/jwt");
 module.exports = function authentication(req, res, next) {
     try {
         const { authorization } = req.headers;
-        if (!authorization) throw { message: "Invalid Token" }
+        if (!authorization) throw { name: "Invalid Token" }
         const [type, token] = authorization.split(" ");
-        if (!token) throw { message: "Invalid Token" }
+        if (!token) throw { name: "Invalid Token" }
 
         const payload = verifyToken(token);
         req.user = {
