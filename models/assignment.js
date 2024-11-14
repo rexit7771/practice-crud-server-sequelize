@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   Assignment.init({
     task: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notNull: {
           msg: "Task is required"
@@ -28,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     employeeId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notNull: {
           msg: "Employee Id is required"
