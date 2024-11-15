@@ -21,6 +21,7 @@ module.exports = function errorHandler(error, req, res, next) {
             break;
         case "Employee Not Found":
         case "Assignment Not Found":
+        case "Assignment Not Found":
             status = 404;
             break;
 

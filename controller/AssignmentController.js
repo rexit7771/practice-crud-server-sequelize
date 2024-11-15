@@ -53,5 +53,17 @@ module.exports = class AssignmentController {
         } catch (error) {
             next(error)
         }
+    };
+
+    static async deleteAssignment(req, res, next) {
+        try {
+            const { id } = req.params;
+            const assignment = await Assignment.findOne({ where: { id } });
+            if (!assignment) throw { name: "Assignment Not Found" };
+            await Assignment.destroy({ where: { id } });
+            res.status(200).json({ message: `${assignment.task} assignment has been deleted` });
+        } catch (error) {
+            next(error)
+        }
     }
 }
