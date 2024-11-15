@@ -44,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
           key: "id"
         }
       }
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "assigned",
     }
   }, {
     sequelize,

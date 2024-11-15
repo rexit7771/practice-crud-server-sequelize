@@ -21,6 +21,10 @@ module.exports = {
           }
         }
       },
+      status: {
+        type: Sequelize.STRING,
+        defaultValue: "assigned"
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

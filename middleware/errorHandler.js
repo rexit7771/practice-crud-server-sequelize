@@ -16,6 +16,14 @@ module.exports = function errorHandler(error, req, res, next) {
         case "Invalid Token":
             status = 401;
             break;
+        case "Unauthorized":
+            status = 403
+            break;
+        case "Employee Not Found":
+        case "Assignment Not Found":
+            status = 404;
+            break;
+
     }
     return res.status(status).json({ message })
 }
