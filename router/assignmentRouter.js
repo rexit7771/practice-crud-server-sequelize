@@ -1,8 +1,10 @@
 const AssignmentController = require('../controller/AssignmentController');
+const authorization = require('../middleware/authorization');
 
 const assignmentRoutes = require('express').Router();
 
 assignmentRoutes.get("/assignments", AssignmentController.fetchAllAssignments);
-assignmentRoutes.post("/addAssignment", AssignmentController.addNewAssignment)
+
+assignmentRoutes.post("/addAssignment", authorization, AssignmentController.addNewAssignment)
 
 module.exports = assignmentRoutes
