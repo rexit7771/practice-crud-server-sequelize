@@ -3,7 +3,23 @@ const { User, Assignment } = require("../models");
 module.exports = class AssignmentController {
     static async fetchAllAssignments(req, res, next) {
         try {
-            const data = await Assignment.findAll();
+            const { id, role } = req.user.payload;
+            let data
+            if (role === "admin") {
+                data = await Assignment.findAll();
+            } else {
+                data = await Assignment.findOne({ where: { employeeId: id } });
+            }
+            res.status(200).json(data)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async fetchAssignmentsByEmployeeId(req, res, next) {
+        try {
+            const { id } = req.user.payload
+            const data = await Assignment.findOne({ where: { employeeId: id } });
             res.status(200).json(data)
         } catch (error) {
             next(error)
@@ -26,11 +42,13 @@ module.exports = class AssignmentController {
     static async editAssignment(req, res, next) {
         try {
             const { id } = req.params;
-            const { task, status } = req.body
+            const { task, status } = req.body;
+            const employeeId = req.user.payload.id;
+            const { role } = req.user.payload;
             const assignment = await Assignment.findOne({ where: { id } });
-            if (!assignment) throw { name: "Assignment Not Found" }
-
-            await Assignment.update({ status });
+            if (!assignment) throw { name: "Assignment Not Found" };
+            if (role !== "admin" && assignment.employeeId !== employeeId) throw { name: "Unauthorized" }
+            await Assignment.update({ status }, { where: { id } });
             res.status(200).json({ message: `${task} status has been update from ${assignment.status} to ${status}` });
         } catch (error) {
             next(error)
